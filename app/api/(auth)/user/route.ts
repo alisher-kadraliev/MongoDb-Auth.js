@@ -3,6 +3,16 @@ import { NextResponse } from "next/server"
 import bcrypt from "bcryptjs"
 import { User } from "@/models/User"
 
+export const GET = async () => {
+    try {
+        await connect()
+        const users = await User.find()
+        return new NextResponse(JSON.stringify(users), { status: 200 })
+    } catch (error: any) {
+        return new NextResponse("Error fetch user", error)
+    }
+}
+
 export const POST = async (req: Request) => {
     try {
         const body = await req.json()
@@ -11,8 +21,7 @@ export const POST = async (req: Request) => {
         }
         await connect()
         const existingUser = await User.findOne({ email: body.email })
-        if (existingUser)
-        {
+        if (existingUser) {
             return new NextResponse(JSON.stringify({ message: "Email already exists" }), { status: 400 });
         }
         const hashedPassword = await bcrypt.hash(body.password, 10)

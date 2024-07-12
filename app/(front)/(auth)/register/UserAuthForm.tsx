@@ -5,10 +5,10 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { FcGoogle } from "react-icons/fc";
-import { FiRefreshCcw } from "react-icons/fi";
+import { FcGoogle } from "react-icons/fc"
+import { FiRefreshCcw } from "react-icons/fi"
 import { useRouter } from "next/navigation"
-import { signIn } from "next-auth/react";
+import { signIn } from "next-auth/react"
 
 
 

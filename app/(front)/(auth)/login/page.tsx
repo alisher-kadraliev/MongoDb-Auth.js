@@ -1,10 +1,14 @@
-import Image from "next/image"
 import Link from "next/link"
 import { UserAuthForm } from "./UserAuthForm"
 import { Button } from "@/components/ui/button"
 import bg from '/public/front/bg.jpg'
+import { auth } from "@/auth"
+import { redirect } from "next/navigation"
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const session = await auth()
+  const user = session?.user
+  if (user) redirect('/')
   return (
     <>
       <div className="container relative h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">

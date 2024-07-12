@@ -5,10 +5,10 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { FcGoogle } from "react-icons/fc";
-import { FiRefreshCcw } from "react-icons/fi";
+import { FcGoogle } from "react-icons/fc"
+import { FiRefreshCcw } from "react-icons/fi"
 import { useRouter } from "next/navigation"
-import { signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react'
 
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
@@ -32,13 +32,16 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         if (!email) {
             newErrors.email = "Email is required";
             valid = false;
+            setIsLoading(false)
         }
         if (!password) {
             newErrors.password = "Password is required";
             valid = false;
+            setIsLoading(false)
         } else if (password.length < 8) {
             newErrors.password = "At least 8 characters long";
             valid = false;
+            setIsLoading(false)
         }
         setErrors(newErrors);
         return valid;
@@ -46,18 +49,19 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        setIsLoading(true)
         const req = await signIn('credentials', {
             redirect: false,
             email,
             password,
-            providers: ['google'], // You can add more providers here
+            providers: ['google'],
         });
 
         setMessage(null)
         if (!validateForm()) {
             return
         }
-        setIsLoading(true)
+
         if (req?.error) {
             setMessage({ text: "Wrong email or password", type: 'error' });
             setIsLoading(false)
@@ -65,7 +69,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         } else {
             setMessage({ text: "Successfully logged in", type: 'success' })
             setTimeout(() => {
-                // router.push("/")
+                router.push("/")
             }, 3000)
             setIsLoading(false)
         }
@@ -93,7 +97,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                                 autoComplete="true"
                                 onChange={e => setEmail(e.target.value)}
                             />
-
                         </div>
                         <div className="gap-1 flex flex-col">
                             <div className="flex gap-2 items-end">
